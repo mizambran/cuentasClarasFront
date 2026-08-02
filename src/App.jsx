@@ -10,6 +10,9 @@ import { UsuarioContext } from './context/UsuarioContext'
 import Dashboard from './modulos/dashboard/pages/Dashboard'
 import Inicio from './shared/Inicio'
 import Footer from './shared/Footer'
+import RutaAdmin from './RutaProtegida/RutaAdmin'
+import Transacciones from './modulos/transacciones/pages/Transacciones'
+import Error404 from './shared/Error404'
 
 function App() {
 
@@ -28,6 +31,8 @@ function App() {
     <Route path='/login' element={<Login />} />
     <Route path='/registrar' element={<FormularioRegistro />} />
     <Route path='/dashboard' element={<Dashboard />} />
+    <Route path='/transacciones' element={<Transacciones />} />
+    <Route path='*' element={<Error404 />} />
     </Routes>
     <Footer />
     </BrowserRouter>

@@ -1,13 +1,23 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FaChartLine, FaMobileAlt, FaLock } from 'react-icons/fa';
 import NavBar from './NavBar';
 import Footer from './Footer';
+import { UsuarioContext } from '../context/UsuarioContext';
+import SideBar from './SideBar';
 
 const Inicio = () => {
+
+  const {
+    usuario,
+    logueado
+  } = useContext(UsuarioContext)
+
   return (
-    <div className="bg-light min-vh-100 d-flex flex-column justify-content-center mt-4">
+    <div>
+      {logueado ? (<SideBar />) : (
+        <div className="bg-light min-vh-100 d-flex flex-column justify-content-center mt-4">
       <Container className="py-5">
         <Row className="text-center mb-5 align-items-center justify-content-center">
           <Col md={8} lg={6}>
@@ -64,6 +74,8 @@ const Inicio = () => {
           </Col>
         </Row>
       </Container>
+    </div>
+      )}
     </div>
   );
 };
