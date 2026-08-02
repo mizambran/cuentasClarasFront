@@ -17,14 +17,24 @@ const volverAtras = () => {
 }
 
 const crear = async(data) => {
+  try {
   const respuesta = await crearUsuario(data)
-  const datos = await respuesta.json()
-  console.log(datos)
+  console.log("Usuario creado", respuesta)
   Swal.fire({
     title:'Usuario creado!',
     icon:'success'
   })
   navegacion('/login')
+  } catch (error) {
+  console.error("Errores del backend:", error)
+  const mensajeError = error.errors ? error.errors[0].msg : (error.mensaje || "Revisá los datos ingresados");
+
+        Swal.fire({
+            title: 'Error al registrar',
+            text: mensajeError,
+            icon: 'error'
+        });  
+  }
 }
 const [showPassword, setShowPassword] = useState(false)
 const togglePassword = () => {

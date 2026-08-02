@@ -31,11 +31,11 @@ export const crearUsuario = async(datos) => {
     })
     const resultado = await respuesta.json()
     if(!respuesta.ok){
-        throw new Error(`Algo salió mal en la petición. Estado: ${respuesta.status}`)
+        throw resultado
     }
     return resultado
     } catch (error) {
       console.error(error)
-      throw new Error("Ocurrió un error en el catch al crear usuario")  
+      throw error  
     }
 }
