@@ -46,7 +46,7 @@ const Login = () => {
             title:'Bienvenido!',
             icon:'success'
         })
-        navegacion('/dashboard')
+        navegacion('/')
 
         } catch (error) {
         
