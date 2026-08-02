@@ -4,14 +4,17 @@ import NavBar from './shared/NavBar'
 import SideBar from './shared/SideBar'
 import Login from './modulos/auth/pages/Login'
 import FormularioRegistro from './modulos/auth/components/FormularioRegistro'
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 function App() {
 
   return (
     <>
     <BrowserRouter>
-    <Login></Login>
+    <Routes>
+    <Route path='/' element={<Login />} />
+    <Route path='/registrar' element={<FormularioRegistro />} />
+    </Routes>
     </BrowserRouter>
     </>
   )
