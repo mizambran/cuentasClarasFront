@@ -12,8 +12,8 @@ const {register, handleSubmit, reset, formState:{errors}} = useForm()
 
 const navegacion = useNavigate()
 
-const volverAtras = () => {
-  navegacion(-1)
+const ingresar = () => {
+  navegacion('/login')
 }
 
 const crear = async(data) => {
@@ -94,11 +94,15 @@ const togglePassword = () => {
                   <Form.Text> {errors.password?.message} </Form.Text>
                 </Form.Group>
 
-                <Button variant="primary" type="submit" className="w-100">
+                <div className='d-flex justify-content-evenly gap-2'>
+                  <Button variant="primary" type="submit" className="w-100">
                   Registrarse
                 </Button>
-              </Form>
-              <Button type='button' onClick={volverAtras} > Atras </Button> 
+                <Button variant="secondary" type="button" className="w-100" onClick={ingresar}>
+                  Ingresar
+                </Button>
+                </div>
+              </Form> 
             </Card.Body>
           </Card>
         </Col>
