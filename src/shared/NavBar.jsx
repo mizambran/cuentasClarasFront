@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
 import { Navbar, Container, Nav, Button } from 'react-bootstrap';
-import { FaWallet, FaSignOutAlt } from 'react-icons/fa';
+import { FaWallet, FaSignOutAlt, FaHome } from 'react-icons/fa';
 import { UsuarioContext } from '../context/UsuarioContext';
 import { useNavigate } from 'react-router-dom';
+import LogoCuentasClaras from '../assets/LogoCuentasClaras';
 
 const NavBar = () => {
 
@@ -24,22 +25,29 @@ const NavBar = () => {
     navegacion('/login')
   }
 
+  const inicio = () => {
+    navegacion('/')
+  }
+
   return (
     <Navbar bg="dark" variant="dark" expand="lg" className="px-3">
       <Container fluid>
         <Navbar.Brand href="/">
-          <FaWallet className="me-2 text-info" /> Finanzas Personales
+        <LogoCuentasClaras />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
-          <Nav>
+          <Nav className='gap-1'>
+            <Button variant="outline-light" size="sm" className="d-flex align-items-center" onClick={inicio}>
+              <FaHome /> Inicio
+            </Button>
             {logueado ? (
-              <Button variant="outline-light" size="sm" className="d-flex align-items-center">
-              <FaSignOutAlt className="me-1" onClick={cerrarSesion} /> Salir
+              <Button variant="danger" size="sm" className="d-flex align-items-center" onClick={cerrarSesion}>
+              <FaSignOutAlt className="me-1"  /> Salir
             </Button>
             ) : (
-              <Button variant="outline-light" size="sm" className="d-flex align-items-center">
-              <FaSignOutAlt className="me-1" onClick={iniciarSesion} /> Ingresar
+              <Button variant="outline-light" size="sm" className="d-flex align-items-center" onClick={iniciarSesion}>
+              <FaSignOutAlt className="me-1" /> Ingresar
             </Button>
             )}
           </Nav>
