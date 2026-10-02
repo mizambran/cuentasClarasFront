@@ -13,7 +13,7 @@ export const loginUsuario = async (credenciales) => {
         if (!respuesta.ok) {
             throw new Error(resultado.mensaje || 'Credenciales inválidas');
         }
-
+        
         return resultado; // Retornará el token JWT y los datos del usuario
     } catch (error) {
         throw error;

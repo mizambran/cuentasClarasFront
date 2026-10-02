@@ -14,6 +14,7 @@ import RutaAdmin from './RutaProtegida/RutaAdmin'
 import Transacciones from './modulos/transacciones/pages/Transacciones'
 import Error404 from './shared/Error404'
 
+
 function App() {
 
   const {
