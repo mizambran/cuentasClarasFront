@@ -27,8 +27,8 @@ const Login = () => {
     const ingresar = async(data) => {
         try {
         const respuesta = await loginUsuario(data)
-        console.log(respuesta);
-        sessionStorage.setItem(`token`, respuesta.token)
+        //console.log(respuesta);
+        localStorage.setItem(`tokenCC`, respuesta.token)
 
         setUsuario({
             id: respuesta._id,

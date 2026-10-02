@@ -17,7 +17,7 @@ const NavBar = () => {
 
   const cerrarSesion = () => {
     setLogueado(false)
-    sessionStorage.removeItem('token')
+    localStorage.removeItem('tokenCC')
     navegacion('/login')
   }
 

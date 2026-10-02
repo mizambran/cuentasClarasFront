@@ -1,8 +1,43 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Form, Table, Button, InputGroup, Badge } from 'react-bootstrap';
 import { FaPlus, FaSearch, FaEye, FaEdit, FaTrash } from 'react-icons/fa';
+import { listarCategorias, listarCuentas, listarTransacciones } from '../services/transaccionAPI';
+import { convertirARS, convertirFecha } from '../../../utils/formatos';
+
+
+
 
 const Transacciones = () => {
+
+  const [transacciones, setTransacciones] = useState([])
+  const [categorias, setCategorias] = useState([])
+  const [cuentas, setCuentas] = useState([])
+
+  useEffect(() => {
+    const traerDatos = async() => {
+      
+      const transaccionesEnc = await listarTransacciones()
+      setTransacciones(transaccionesEnc)
+
+      const categoriasEncontradas = await listarCategorias()
+      setCategorias(categoriasEncontradas)
+      
+      const cuentasEncontradas = await listarCuentas()
+      setCuentas(cuentasEncontradas)
+    }
+    traerDatos()
+  }, [setCategorias]) 
+
+  const totalTransac = transacciones.reduce((acc, item) => {
+    let tipo = item.tipo
+    if(tipo === 'Ingreso'){
+      acc += item.monto 
+    } else {
+      acc -= item.monto
+    }
+    return acc
+  }, 0)
+
   return (
     <Container fluid className="p-4 bg-light min-vh-100">
       
@@ -64,17 +99,16 @@ const Transacciones = () => {
                 <Form.Label className="text-muted small mb-1">Categoría</Form.Label>
                 <Form.Select>
                   <option value="">Todas</option>
-                  <option value="Sueldo">Sueldo</option>
-                  <option value="Alimentacion">Alimentación</option>
-                  <option value="Transporte">Transporte</option>
-                  <option value="Ocio">Ocio</option>
-                  <option value="Otros">Otros</option>
+                  {categorias?.map((cat) => (
+                    <option key={cat._id} value={cat.nombre} >{cat.nombre}</option>
+                  ))}
                 </Form.Select>
               </Form.Group>
             </Col>
           </Row>
         </Card.Body>
       </Card>
+      
 
       {/* --- SECCIÓN DE LA TABLA --- */}
       <Card className="shadow-sm border-0">
@@ -84,18 +118,21 @@ const Transacciones = () => {
               <tr>
                 <th className="px-4 py-3">Fecha</th>
                 <th className="py-3">Tipo</th>
-                <th className="py-3">Categoría</th>
-                <th className="text-end py-3">Importe</th>
-                <th className="text-center py-3">Acciones</th>
+                <th className="py-3">Descripcion</th>
+                <th className="py-3 text-center ">Importe</th>
+                <th className="py-3">Estado</th>
+                <th className="py-3">Acciones</th>
               </tr>
             </thead>
             <tbody>
               {/* Fila de ejemplo 1: Ingreso */}
-              <tr>
-                <td className="px-4">16/12/2025</td>
-                <td><Badge bg="success">Ingreso</Badge></td>
-                <td>Sueldo</td>
-                <td className="text-end fw-bold text-success">$ 200,000</td>
+              {transacciones?.map((tran) => (
+                <tr key={tran._id} >
+                <td className="px-4"> {convertirFecha(tran.fecha)} </td>
+                <td><Badge bg={tran.tipo === 'Ingreso' ? "success" : "danger"}>{tran.tipo}</Badge></td>
+                <td>{tran.descripcion}</td>
+                <td className={tran.tipo === 'Ingreso' ? "text-end fw-bold text-success" : "text-end fw-bold text-danger"}>{convertirARS(tran.monto)}</td>
+                <td>{tran.estado}</td>
                 <td className="text-center">
                   <Button variant="outline-info" size="sm" className="me-2 mb-1 mb-md-0" title="Ver detalle">
                     <FaEye />
@@ -108,36 +145,17 @@ const Transacciones = () => {
                   </Button>
                 </td>
               </tr>
-              
-              {/* Fila de ejemplo 2: Gasto */}
-              <tr>
-                <td className="px-4">16/12/2025</td>
-                <td><Badge bg="danger">Gasto</Badge></td>
-                <td>Alimentación</td>
-                <td className="text-end fw-bold text-danger">$ 35,000</td>
-                <td className="text-center">
-                  <Button variant="outline-info" size="sm" className="me-2 mb-1 mb-md-0" title="Ver detalle">
-                    <FaEye />
-                  </Button>
-                  <Button variant="outline-warning" size="sm" className="me-2 mb-1 mb-md-0" title="Editar">
-                    <FaEdit />
-                  </Button>
-                  <Button variant="outline-danger" size="sm" className="mb-1 mb-md-0" title="Eliminar">
-                    <FaTrash />
-                  </Button>
-                </td>
-              </tr>
+              ))}              
             </tbody>
             <tfoot>
                 <tr>
                     <td colSpan={3} className='text-center fw-bold'>Total</td>
-                    <td className='text-end fw-bold'>$11.000</td>  
+                    <td className='text-end fw-bold'> {convertirARS(totalTransac)} </td>  
                 </tr>
             </tfoot>
           </Table>
         </Card.Body>
       </Card>
-
     </Container>
   );
 };
