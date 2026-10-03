@@ -85,3 +85,29 @@ export const crearTransac = async(data) => {
         throw error 
     }
 }
+
+export const editarTransac = async(id, data) => {
+    try {
+        const token = localStorage.getItem('tokenCC')
+        const respuesta = await fetch(`${import.meta.env.VITE_API_URL}/transacciones/${id}`, {
+            method:'PUT',
+            headers:{
+                'Content-type':'Application/json',
+                'Authorization':`Bearer ${token}`
+            },
+            body:JSON.stringify(data)
+        })
+        if(!respuesta.ok){
+            throw new Error(`Algo paso al intentar editar el movimiento, ${respuesta.status}`)
+        }
+        const resultado = await respuesta.json()
+        
+        if(!respuesta.ok){
+            throw new Error(resultado.mensaje || `Error al crear la transacción`)
+        }
+        return resultado
+    } catch (error) {
+        console.error("Ocurrió algo estamos en el catch",error)
+        throw error
+    }
+}
