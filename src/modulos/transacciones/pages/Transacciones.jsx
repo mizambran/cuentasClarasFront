@@ -59,11 +59,18 @@ const Transacciones = () => {
     setTransacciones(transaccionesActualizadas)
   }
 
+  const [buscador, setBuscador] = useState("")
+
+
+  const transaccionesFiltradas = transacciones.filter((tran) => 
+    tran?.descripcion?.toLowerCase().includes(buscador.toLowerCase())
+  )
+
   return (
     <Container fluid className="p-4 bg-light min-vh-100">
       {/* --- CABECERA Y BOTÓN AGREGAR --- */}
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2 className="text-secondary mb-0">Mis Transacciones</h2>
+        <h2 className="text-secondary mb-0">Mis Movimientos</h2>
         <Button
           variant="primary"
           className="d-flex align-items-center shadow-sm"
@@ -81,7 +88,7 @@ const Transacciones = () => {
             <Col xs={12} md={3}>
               <Form.Group controlId="filtroBuscador">
                 <Form.Label className="text-muted small mb-1">
-                  Buscar concepto
+                  Buscar descripción
                 </Form.Label>
                 <InputGroup>
                   <InputGroup.Text className="bg-white border-end-0">
@@ -89,8 +96,9 @@ const Transacciones = () => {
                   </InputGroup.Text>
                   <Form.Control
                     type="text"
-                    placeholder="Ej: Supermercado..."
+                    placeholder="Ej: Sueldo..."
                     className="border-start-0"
+                    onChange={(e) => setBuscador(e.target.value)}
                   />
                 </InputGroup>
               </Form.Group>
@@ -150,7 +158,6 @@ const Transacciones = () => {
             <thead className="table-light">
               <tr>
                 <th className="px-4 py-3">Fecha</th>
-                <th className="py-3">Tipo</th>
                 <th className="py-3">Descripcion</th>
                 <th className="py-3 text-center ">Importe</th>
                 <th className="py-3">Estado</th>
@@ -158,14 +165,9 @@ const Transacciones = () => {
             </thead>
             <tbody>
               {/* Fila de ejemplo 1: Ingreso */}
-              {transacciones?.map((tran) => (
+              {transaccionesFiltradas?.map((tran) => (
                 <tr key={tran._id}>
                   <td className="px-2"> {convertirFecha(tran.fecha)} </td>
-                  <td>
-                    <Badge bg={tran.tipo === "Ingreso" ? "success" : "danger"}>
-                      {tran.tipo}
-                    </Badge>
-                  </td>
                   <td>{tran.descripcion}</td>
                   <td
                     className={
