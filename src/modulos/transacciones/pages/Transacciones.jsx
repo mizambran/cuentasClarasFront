@@ -154,14 +154,13 @@ const Transacciones = () => {
                 <th className="py-3">Descripcion</th>
                 <th className="py-3 text-center ">Importe</th>
                 <th className="py-3">Estado</th>
-                <th className="py-3">Acciones</th>
               </tr>
             </thead>
             <tbody>
               {/* Fila de ejemplo 1: Ingreso */}
               {transacciones?.map((tran) => (
                 <tr key={tran._id}>
-                  <td className="px-4"> {convertirFecha(tran.fecha)} </td>
+                  <td className="px-2"> {convertirFecha(tran.fecha)} </td>
                   <td>
                     <Badge bg={tran.tipo === "Ingreso" ? "success" : "danger"}>
                       {tran.tipo}
@@ -178,32 +177,7 @@ const Transacciones = () => {
                     {convertirARS(tran.monto)}
                   </td>
                   <td>{tran.estado}</td>
-                  <td className="text-center">
-                    <Button
-                      variant="outline-info"
-                      size="sm"
-                      className="me-2 mb-1 mb-md-0"
-                      title="Ver detalle"
-                    >
-                      <FaEye />
-                    </Button>
-                    <Button
-                      variant="outline-warning"
-                      size="sm"
-                      className="me-2 mb-1 mb-md-0"
-                      title="Editar"
-                    >
-                      <FaEdit />
-                    </Button>
-                    <Button
-                      variant="outline-danger"
-                      size="sm"
-                      className="mb-1 mb-md-0"
-                      title="Eliminar"
-                    >
-                      <FaTrash />
-                    </Button>
-                  </td>
+                  
                 </tr>
               ))}
             </tbody>
