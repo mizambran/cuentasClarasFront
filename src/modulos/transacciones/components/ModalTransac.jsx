@@ -5,7 +5,7 @@ const ModalTransac = ({titulo, show, handleClose, children}) => {
     <div>
       <Modal show={show} onHide={handleClose} centered backdrop="static" >
         <Modal.Header closeButton>
-          <Modal.Title className='text-primary' > {titulo} </Modal.Title>
+          <Modal.Title className='text-primary' > {show === 'editar' ? "Editando..." : titulo} </Modal.Title>
         </Modal.Header>
         <Modal.Body> {children} </Modal.Body>
       </Modal>

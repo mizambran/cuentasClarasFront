@@ -23,11 +23,22 @@ import FormTransaccion from "../components/FormTransaccion";
 const Transacciones = () => {
 
   const [show, setShow] = useState('')
-  const handleClose = () => setShow('')
+  const [transSeleccionada, setTransSeleccionada] = useState(null)
+  const [titulo, setTitulo] = useState('')
+  
+  const handleClose = () => {
+    setShow('')
+    setTransSeleccionada(null)
+  }
 
   const [transacciones, setTransacciones] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [cuentas, setCuentas] = useState([]);
+  const [buscador, setBuscador] = useState("")
+  
+  const transaccionesFiltradas = transacciones.filter((tran) => 
+    tran?.descripcion?.toLowerCase().includes(buscador.toLowerCase())
+  )
 
   useEffect(() => {
     const traerDatos = async () => {
@@ -44,7 +55,7 @@ const Transacciones = () => {
     traerDatos();
   }, []);
 
-  const totalTransac = transacciones.reduce((acc, item) => {
+  const totalTransac = transaccionesFiltradas?.reduce((acc, item) => {
     let tipo = item.tipo;
     if (tipo === "Ingreso") {
       acc += item.monto;
@@ -59,12 +70,6 @@ const Transacciones = () => {
     setTransacciones(transaccionesActualizadas)
   }
 
-  const [buscador, setBuscador] = useState("")
-
-
-  const transaccionesFiltradas = transacciones.filter((tran) => 
-    tran?.descripcion?.toLowerCase().includes(buscador.toLowerCase())
-  )
 
   return (
     <Container fluid className="p-4 bg-light min-vh-100">
@@ -74,7 +79,10 @@ const Transacciones = () => {
         <Button
           variant="primary"
           className="d-flex align-items-center shadow-sm"
-          onClick={() => setShow('crear')}
+          onClick={() => {
+            setShow('crear')
+            setTitulo('Creando...')
+          }}
         >
           <FaPlus className="me-2" />Agregar
         </Button>
@@ -84,25 +92,6 @@ const Transacciones = () => {
       <Card className="shadow-sm border-0 mb-4">
         <Card.Body>
           <Row className="g-3">
-            {/* Buscador */}
-            <Col xs={12} md={3}>
-              <Form.Group controlId="filtroBuscador">
-                <Form.Label className="text-muted small mb-1">
-                  Buscar descripción
-                </Form.Label>
-                <InputGroup>
-                  <InputGroup.Text className="bg-white border-end-0">
-                    <FaSearch className="text-muted" />
-                  </InputGroup.Text>
-                  <Form.Control
-                    type="text"
-                    placeholder="Ej: Sueldo..."
-                    className="border-start-0"
-                    onChange={(e) => setBuscador(e.target.value)}
-                  />
-                </InputGroup>
-              </Form.Group>
-            </Col>
 
             {/* Filtro Fecha */}
             <Col xs={6} md={2}>
@@ -151,22 +140,49 @@ const Transacciones = () => {
         </Card.Body>
       </Card>
 
+      {/* Buscador */}
+            <Col xs={12} md={3}>
+              <Form.Group controlId="filtroBuscador">
+                <Form.Label className="text-muted small mb-1">
+                  Buscar descripción
+                </Form.Label>
+                <InputGroup>
+                  <InputGroup.Text className="bg-white border-end-0">
+                    <FaSearch className="text-muted" />
+                  </InputGroup.Text>
+                  <Form.Control
+                    type="text"
+                    placeholder="Ej: Sueldo..."
+                    className="border-start-0"
+                    onChange={(e) => setBuscador(e.target.value)}
+                  />
+                </InputGroup>
+              </Form.Group>
+            </Col>
+
       {/* --- SECCIÓN DE LA TABLA --- */}
       <Card className="shadow-sm border-0">
         <Card.Body className="p-0">
           <Table hover responsive className="align-middle mb-0">
             <thead className="table-light">
               <tr>
-                <th className="px-4 py-3">Fecha</th>
-                <th className="py-3">Descripcion</th>
-                <th className="py-3 text-center ">Importe</th>
-                <th className="py-3">Estado</th>
+                <th className="px-4 py-3 text-center">Fecha</th>
+                <th className="py-3 text-center">Descripcion</th>
+                <th className="py-3 text-end ">Importe</th>
+                <th className="py-3 text-center ">Estado</th>
               </tr>
             </thead>
             <tbody>
               {/* Fila de ejemplo 1: Ingreso */}
               {transaccionesFiltradas?.map((tran) => (
-                <tr key={tran._id}>
+                <tr key={tran._id} 
+                onClick={() => {
+                    setShow('ver')
+                    setTitulo('Modo Vista')
+                    setTransSeleccionada(tran)
+                  }}
+                  style={{ cursor: 'pointer' }}
+                  > 
                   <td className="px-2"> {convertirFecha(tran.fecha)} </td>
                   <td>{tran.descripcion}</td>
                   <td
@@ -178,14 +194,13 @@ const Transacciones = () => {
                   >
                     {convertirARS(tran.monto)}
                   </td>
-                  <td>{tran.estado}</td>
-                  
+                  <td className="text-center">{tran.estado}</td>
                 </tr>
               ))}
             </tbody>
             <tfoot>
               <tr>
-                <td colSpan={3} className="text-center fw-bold">
+                <td colSpan={2} className="text-center fw-bold">
                   Total
                 </td>
                 <td className="text-end fw-bold">
@@ -197,9 +212,12 @@ const Transacciones = () => {
         </Card.Body>
       </Card>
 
-      <ModalTransac show={show === 'crear'} handleClose={handleClose} titulo="Nuevo movimiento" >
+      <ModalTransac show={show} handleClose={handleClose} titulo={titulo} >
         <FormTransaccion 
+        show={show}
+        cambiarModo={setShow}
         cerrarModal={handleClose}
+        transSeleccionada={transSeleccionada}
         categorias={categorias} 
         cuentas={cuentas}
         recargarTabla={recargarTabla} />      
