@@ -44,7 +44,7 @@ const FormTransaccion = ({ show, cambiarModo, cerrarModal, transSeleccionada, ca
       reset({
         fecha: obtenerFechaHoy(),
         tipo: "Gasto",
-        estado: "Pendiente"
+        estado: "Completado"
       });
     }
   }, [transSeleccionada, show, reset]);
