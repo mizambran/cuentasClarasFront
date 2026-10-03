@@ -59,3 +59,29 @@ export const listarTransacciones = async() => {
         console.error(error)
     }
 }
+
+
+export const crearTransac = async(data) => {
+    try {
+        const token = localStorage.getItem('tokenCC')
+        const respuesta = await fetch(`${import.meta.env.VITE_API_URL}/transacciones/`, {
+            method:'POST',
+            headers:{
+                'Content-type':'Application/json',
+                'Authorization':`Bearer ${token}`
+            },
+            body:JSON.stringify(data)
+        })
+
+        const resultado = await respuesta.json()
+        
+        if(!respuesta.ok){
+            throw new Error(resultado.mensaje || `Error al crear la transacción`)
+        }
+        return resultado
+
+    } catch (error) {
+        console.error("Ocurrió algo estamos en el catch",error)
+        throw error 
+    }
+}
