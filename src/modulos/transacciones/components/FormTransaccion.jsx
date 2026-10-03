@@ -141,8 +141,8 @@ const FormTransaccion = ({ show, cambiarModo, cerrarModal, transSeleccionada, ca
               <FaCheckCircle className="me-2 text-primary" />Estado
             </Form.Label>
             <Form.Select className="shadow-sm border-0 bg-light" {...register("estado")}>
-              <option value="Pendiente">Pendiente</option>
               <option value="Completado">Completado</option>
+              <option value="Pendiente">Pendiente</option>
             </Form.Select>
           </Form.Group>
         </Row>
