@@ -97,17 +97,37 @@ export const editarTransac = async(id, data) => {
             },
             body:JSON.stringify(data)
         })
-        if(!respuesta.ok){
-            throw new Error(`Algo paso al intentar editar el movimiento, ${respuesta.status}`)
-        }
+
         const resultado = await respuesta.json()
         
         if(!respuesta.ok){
-            throw new Error(resultado.mensaje || `Error al crear la transacción`)
+            throw new Error(resultado.mensaje || `Error al editar la transacción`)
         }
         return resultado
     } catch (error) {
         console.error("Ocurrió algo estamos en el catch",error)
+        throw error
+    }
+}
+
+export const eliminarTransac = async(id) => {
+    try {
+        const token = localStorage.getItem('tokenCC')
+        const respuesta = await fetch(`${import.meta.env.VITE_API_URL}/transacciones/${id}`, {
+            method:'DELETE',
+            headers:{
+                'Content-type':'Application/json',
+                'Authorization':`Bearer ${token}`
+            }
+        })
+
+        const resultado = await respuesta.json()
+        if(!respuesta.ok){
+            throw new Error(resultado.mensaje || "Algo salió mal al intentar eliminar la petición")
+        }
+        return resultado
+    } catch (error) {
+        console.error(`Ocurrió algo mira el catch`, error)
         throw error
     }
 }

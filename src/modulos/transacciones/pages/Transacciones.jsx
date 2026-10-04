@@ -174,14 +174,15 @@ const Transacciones = () => {
             </thead>
             <tbody>
               {/* Fila de ejemplo 1: Ingreso */}
-              {transaccionesFiltradas?.map((tran) => (
+              {transaccionesFiltradas.length > 0 ? (
+                transaccionesFiltradas?.map((tran) => (
                 <tr key={tran._id} 
                 onClick={() => {
-                    setShow('ver')
-                    setTitulo('Modo Vista')
-                    setTransSeleccionada(tran)
+                setShow('ver')
+                setTitulo('Modo Vista')
+                setTransSeleccionada(tran)
                   }}
-                  style={{ cursor: 'pointer' }}
+                style={{ cursor: 'pointer' }}
                   > 
                   <td className="px-2"> {convertirFecha(tran.fecha)} </td>
                   <td>{tran.descripcion}</td>
@@ -196,7 +197,12 @@ const Transacciones = () => {
                   </td>
                   <td className="text-center">{tran.estado}</td>
                 </tr>
-              ))}
+              ))
+              ) : (
+                <tr>
+                  <td colSpan={4} className="text-center py-4 text-muted" >No tenes ningun movimiento cargado...</td>
+                </tr>
+              )}
             </tbody>
             <tfoot>
               <tr>
