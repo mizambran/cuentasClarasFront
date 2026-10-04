@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 import { Button, Form, Row, Col, InputGroup } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { crearTransac, editarTransac } from "../services/transaccionAPI";
+import { crearTransac, editarTransac, eliminarTransac } from "../services/transaccionAPI";
 import Swal from "sweetalert2";
 import { 
   FaExchangeAlt, FaMoneyBillWave, FaTags, 
   FaWallet, FaCalendarAlt, FaCheckCircle, 
-  FaAlignLeft, FaSave, FaTimes, FaEdit 
+  FaAlignLeft, FaSave, FaTimes, FaEdit, 
+  FaTrash
 } from "react-icons/fa";
 import { obtenerFechaHoy } from "../../../utils/formatos";
 
@@ -19,13 +20,9 @@ const FormTransaccion = ({ show, cambiarModo, cerrarModal, transSeleccionada, ca
   useEffect(() => {
     if (transSeleccionada && (show === 'ver' || show === 'editar')) {
 
-
-      // Herramienta de detective: Apretá F12 y mirá qué trae realmente la base de datos
-      console.log("Datos que llegaron para editar:", transSeleccionada);
-
-      // Mini-función para extraer el ID 100% seguro y convertirlo a texto
+      // Para extraer el ID seguro y convertirlo a texto
       const extraerId = (campo) => {
-        if (!campo) return ""; // Si es un registro viejo sin cuenta, devuelve vacío
+        if (!campo) return ""; 
         if (typeof campo === 'object') return campo._id?.toString() || "";
         return campo.toString();
       };
@@ -55,18 +52,47 @@ const FormTransaccion = ({ show, cambiarModo, cerrarModal, transSeleccionada, ca
         await crearTransac(data);
         Swal.fire('¡Creado!', 'Creaste un movimiento con éxito.', 'success');
       } 
-
       if(show === 'editar'){
         await editarTransac(transSeleccionada._id, data)
         Swal.fire('Editaste!', 'Editaste un movimiento con éxito.', 'success');
       }
-      
       await recargarTabla();
       cerrarModal();
     } catch (error) {
       Swal.fire('Error', error.message, 'error');
     }
   };
+
+  const eliminar = async(id) => {
+    const resultado = await Swal.fire({
+      title: "Estas seguro que quieres eliminar?",
+      text: "No se podrá recuperar una vez borrado!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, continuar"
+    })
+
+    if (resultado.isConfirmed) {
+        try {
+          await eliminarTransac(id)
+          await recargarTabla()
+          cerrarModal()
+          Swal.fire({
+          title: "¡Eliminado!",
+          text: "El movimiento fue eliminado con éxito.",
+          icon: "success"
+        });      
+        } catch (error) {
+          Swal.fire({
+          title: "Error",
+          text: "No se pudo eliminar el movimiento.",
+          icon: "error"
+        });
+        }
+      }
+  }
 
   return (
     <Form onSubmit={handleSubmit(guardarOperacion)} className="p-2">
@@ -152,23 +178,29 @@ const FormTransaccion = ({ show, cambiarModo, cerrarModal, transSeleccionada, ca
             <FaAlignLeft className="me-2 text-secondary" />Descripción
           </Form.Label>
           <Form.Control as="textarea" rows={2} className="shadow-sm border-0 bg-light" isInvalid={!!errors.descripcion} 
-            {...register("descripcion", { maxLength: { value: 200, message: "Máximo 200 caracteres" } })} />
+            {...register("descripcion", { maxLength: { value: 20, message: "Máximo 20 caracteres" } })} />
           <Form.Control.Feedback type="invalid">{errors.descripcion?.message}</Form.Control.Feedback>
         </Form.Group>
 
       </fieldset>
 
       <div className="d-flex justify-content-end gap-3 mt-4 pt-3 border-top">
-        <Button variant="danger" className="px-4 rounded-pill d-flex align-items-center shadow-sm " onClick={cerrarModal}>
-          <FaTimes className="me-2" /> {esSoloLectura ? 'Cerrar' : 'Cancelar'}
+        <Button variant="secondary" className="px-4 rounded-pill d-flex align-items-center shadow-sm " onClick={cerrarModal}>
+          <FaTimes className="me-1" /> {esSoloLectura ? 'Cerrar' : 'Cancelar'}
         </Button>
         
         {/* Si estamos en modo 'ver' , mostramos el boton que cambia a 'editar' */}
         {esSoloLectura && (
-          <Button variant="warning " className="px-4 rounded-pill d-flex align-items-center shadow-sm" 
+          <div className="d-flex gap-2">
+            <Button variant="warning " className="px-4 rounded-pill d-flex align-items-center shadow-sm" 
           onClick={() => cambiarModo('editar')}>
-            <FaEdit className="me-2" /> Editar
+            <FaEdit className="me-1" /> Editar
           </Button>
+          <Button variant="danger " className="px-4 rounded-pill d-flex align-items-center shadow-sm" 
+          onClick={async() => eliminar(transSeleccionada._id)}>
+            <FaTrash className="me-1" /> Eliminar
+          </Button>
+          </div>
         )}
         
         {/* Si estamos en 'crear' o 'editar', mostramos el submit de Guardar */}
