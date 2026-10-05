@@ -19,8 +19,13 @@ const SideBar = () => {
           </NavLink>
         </Nav.Item>
         <Nav.Item className="mb-1">
-          <NavLink to={'/presupuestos'} className="d-flex align-items-center text-dark">
+          <NavLink to={'/presupuesto'} className="d-flex align-items-center text-dark">
             <FaChartPie className="me-2" /> Presupuestos
+          </NavLink>
+        </Nav.Item>
+        <Nav.Item className="mb-1">
+          <NavLink to={'/categorias'} className="d-flex align-items-center text-dark">
+            <FaChartPie className="me-2" /> Categorias
           </NavLink>
         </Nav.Item>
         <Nav.Item className="mb-1">
