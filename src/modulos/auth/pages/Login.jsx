@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 
 const Login = () => {
-    
+
 
     const [showPassword, setShowPassword] = useState(false)
     const {
@@ -27,8 +27,8 @@ const Login = () => {
     const ingresar = async(data) => {
         try {
         const respuesta = await loginUsuario(data)
-        console.log(respuesta);
-        sessionStorage.setItem(`token`, respuesta.token)
+        //console.log(respuesta);
+        localStorage.setItem(`tokenCC`, respuesta.token)
 
         setUsuario({
             id: respuesta._id,
@@ -46,11 +46,11 @@ const Login = () => {
             title:'Bienvenido!',
             icon:'success'
         })
-        navegacion('/dashboard')
+        navegacion('/')
 
         } catch (error) {
         
-            console.error("Error al intentar ingresar", error.message)
+            console.error("Error al intentar ingresar", respuesta.mensaje)
         Swal.fire({
             title:'Credenciales inválidas!',
             icon:'error'
@@ -102,7 +102,7 @@ const Login = () => {
 
                 <div className="text-center">
                   <small className="text-muted">
-                    ¿No tenés cuenta? <Link to="/registro">Registrate acá</Link>
+                    ¿No tenés cuenta? <Link to="/registrar">Registrate acá</Link>
                   </small>
                 </div>
               </Form>

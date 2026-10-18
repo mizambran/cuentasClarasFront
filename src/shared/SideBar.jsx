@@ -1,6 +1,7 @@
 import React from 'react';
 import { Nav } from 'react-bootstrap';
 import { FaHome, FaExchangeAlt, FaChartPie, FaBullseye } from 'react-icons/fa';
+import { NavLink } from 'react-router-dom';
 
 const SideBar = () => {
   return (
@@ -8,24 +9,24 @@ const SideBar = () => {
       <h5 className="text-secondary ps-2 mb-3">Menú Principal</h5>
       <Nav variant="pills" className="flex-column mb-auto">
         <Nav.Item className="mb-1">
-          <Nav.Link href="/dashboard" className="d-flex align-items-center text-dark">
+          <NavLink to={'/dashboard'} className="d-flex align-items-center text-dark">
             <FaHome className="me-2" /> Dashboard
-          </Nav.Link>
+          </NavLink>
         </Nav.Item>
         <Nav.Item className="mb-1">
-          <Nav.Link href="/transacciones" className="d-flex align-items-center text-dark">
+          <NavLink to={'/transacciones'} className="d-flex align-items-center text-dark">
             <FaExchangeAlt className="me-2" /> Transacciones
-          </Nav.Link>
+          </NavLink>
         </Nav.Item>
         <Nav.Item className="mb-1">
-          <Nav.Link href="/presupuestos" className="d-flex align-items-center text-dark">
+          <NavLink to={'/presupuestos'} className="d-flex align-items-center text-dark">
             <FaChartPie className="me-2" /> Presupuestos
-          </Nav.Link>
+          </NavLink>
         </Nav.Item>
         <Nav.Item className="mb-1">
-          <Nav.Link href="/objetivos" className="d-flex align-items-center text-dark">
+          <NavLink to={'/objetivos'} className="d-flex align-items-center text-dark">
             <FaBullseye className="me-2" /> Objetivos
-          </Nav.Link>
+          </NavLink>
         </Nav.Item>
       </Nav>
     </div>

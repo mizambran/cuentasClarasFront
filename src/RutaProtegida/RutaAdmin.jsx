@@ -11,9 +11,10 @@ const RutaAdmin = () => {
     if(!usuario){
         return <Navigate to={'/login'} replace />
     }
-    if(isAdmin && usuario.rol !== 'admin'){
+    // Cuando cree las validaciones del admin
+    /* if(isAdmin && usuario.rol !== 'admin'){
         return <Navigate to={'/'} replace/>
-    }
+    } */
 
     return <Outlet />
 
