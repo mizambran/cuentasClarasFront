@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 
 const SideBar = () => {
   return (
-    <div className="d-flex flex-column flex-shrink-0 p-3 bg-light" style={{ width: '250px', minHeight: '100vh' }}>
+    <div className="d-flex flex-column flex-shrink-0 p-3 bg-light" style={{ width: '100%', minHeight: '100vh' }}>
       <h5 className="text-secondary ps-2 mb-3">Menú Principal</h5>
       <Nav variant="pills" className="flex-column mb-auto">
         <Nav.Item className="mb-1">
