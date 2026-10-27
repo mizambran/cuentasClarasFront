@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { Form, Button, Card, Container, Row, Col } from 'react-bootstrap';
+import { Form, Button, Card, Container, Row, Col, InputGroup } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
-import { FaUser, FaEnvelope, FaLock, FaCalendarAlt, FaEye } from 'react-icons/fa';
+import { FaUser, FaEnvelope, FaLock, FaCalendarAlt, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { crearUsuario } from '../services/usuarioApi';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 const FormularioRegistro = () => {
 
-const {register, handleSubmit, reset, formState:{errors}} = useForm()
+const {register, handleSubmit, reset, formState:{errors}, getValues} = useForm()
 
 const navegacion = useNavigate()
 
@@ -82,17 +82,62 @@ const togglePassword = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-4" controlId="formContrasena">
-                  <Form.Label><FaLock className="me-2" />Contraseña</Form.Label>
-                  <Form.Control type={showPassword? "text" : "password"} placeholder="******" {...register("password", {
-                    required:true,
-                    pattern:{
-                      value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\W_]{8,64}$/,
-                      message:"Debe tener entre 8 y 64 caracteres"
-                    }
-                  })} />
-                  <Button type='button' variant='outline-primary' onClick={togglePassword}><FaEye /> </Button>
-                  <Form.Text> {errors.password?.message} </Form.Text>
-                </Form.Group>
+  <Form.Label><FaLock className="me-2 text-secondary" />Contraseña</Form.Label>
+  <InputGroup className="shadow-sm">
+    <Form.Control 
+      type={showPassword ? "text" : "password"} 
+      placeholder="******"
+      className="border-end-0" 
+      isInvalid={!!errors.password}
+      {...register("password", {
+        required: "La contraseña es obligatoria",
+        pattern: {
+          value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d\W_]{8,64}$/,
+          message: "Debe tener entre 8 y 64 caracteres, mayúscula, minúscula y número"
+        }
+      })} 
+    />
+    <Button 
+      type='button' 
+      variant="outline"
+      className="bg-white border-start-0"
+      onClick={togglePassword}
+    >
+      {showPassword ? <FaEyeSlash /> : <FaEye />}
+    </Button>
+  </InputGroup>
+
+  <Form.Control.Feedback type="invalid" className={errors.password ? "d-block" : ""}>
+    {errors.password?.message}
+  </Form.Control.Feedback>
+</Form.Group>
+
+<Form.Group className="mb-4" controlId="formConfirmarContrasena">
+  <Form.Label><FaLock className="me-2 text-secondary" />Confirmar contraseña</Form.Label>
+  <InputGroup className="shadow-sm">
+    <Form.Control 
+      type={showPassword ? "text" : "password"} 
+      placeholder="******" 
+      className="border-end-0"
+      isInvalid={!!errors.confirmarPassword}
+      {...register("confirmarPassword", {
+        required: "Debes confirmar la contraseña",
+        validate: (valorActual) => valorActual === getValues("password") || "Las contraseñas no coinciden"
+      })} 
+    />
+    <Button 
+      type='button'  
+      variant="outline"
+      className="bg-white border-start-0" 
+      onClick={togglePassword}
+    >
+      {showPassword ? <FaEyeSlash /> : <FaEye />}
+    </Button>
+  </InputGroup>
+  <Form.Control.Feedback type="invalid" className={errors.confirmarPassword ? "d-block" : ""}>
+    {errors.confirmarPassword?.message}
+  </Form.Control.Feedback>
+</Form.Group>
 
                 <div className='d-flex justify-content-evenly gap-2'>
                   <Button variant="primary" type="submit" className="w-100">
