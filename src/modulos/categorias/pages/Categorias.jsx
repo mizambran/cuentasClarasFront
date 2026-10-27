@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Card, Button, Badge } from "react-bootstrap";
+import { Container, Row, Col, Card, Button, Badge, Spinner } from "react-bootstrap";
 import { FaPlus, FaEye, FaEdit, FaTrash, FaTag } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { listarCategorias, eliminarCategoria } from "../services/categoriaAPI";
@@ -11,11 +11,14 @@ const Categorias = () => {
   const [show, setShow] = useState(''); 
   const [titulo, setTitulo] = useState('');
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null);
+  const [cargando, setCargando] = useState(false)
 
   const cargarCategorias = async () => {
     try {
+      setCargando(true)
       const datos = await listarCategorias();
       setCategorias(datos);
+      setCargando(false)
     } catch (error) {
       console.error("Error al cargar categorías", error);
     }
@@ -67,15 +70,23 @@ const Categorias = () => {
         <Button
           variant="primary"
           className="d-flex align-items-center shadow-sm"
+          disabled={cargando}
           onClick={() => abrirModal('crear', 'Nueva Categoría')}
+          
         >
           <FaPlus className="me-2" /> Agregar
         </Button>
       </div>
 
-
+    
       <Row className="g-4">
-        {categorias.length > 0 ? (
+        {cargando ? (
+        <div className="d-flex flex-column justify-content-center align-items-center my-5">
+              <Spinner animation="border" variant="primary" className="mt-5 mb-3" />
+              <p>Cargando...</p>
+            </div>) 
+            : 
+            categorias.length > 0 ? (
           categorias.map((cat) => (
             <Col xs={12} md={6} lg={4} xl={3} key={cat._id}>
               <Card className="shadow border-2 h-100">
@@ -137,7 +148,8 @@ const Categorias = () => {
               <p>Hacé clic en "+ Agregar" para empezar a organizar tus finanzas.</p>
             </div>
           </Col>
-        )}
+        )  
+        }
       </Row>
 
       {/* --- MODAL COMPARTIDA --- */}

@@ -27,8 +27,9 @@ const Login = () => {
     try {
       setCargando(true);
       const respuesta = await loginUsuario(data);
-      //console.log(respuesta);
+      console.log(respuesta);
       localStorage.setItem(`tokenCC`, respuesta.token);
+      localStorage.setItem("usuarioCC",respuesta.nombre)
 
       setUsuario({
         id: respuesta._id,
@@ -46,7 +47,7 @@ const Login = () => {
         title: "Bienvenido!",
         icon: "success",
       });
-      navegacion("/");
+      navegacion("/dashboard");
 
     } catch (error) {
       console.error("Error al intentar ingresar", error);
@@ -82,7 +83,7 @@ const Login = () => {
                   <Form.Group className="mb-3" controlId="loginCorreo">
                     <Form.Label>
                       <FaEnvelope className="me-2" />
-                      Correo electrónico
+                      Email
                     </Form.Label>
                     <Form.Control
                       type="email"

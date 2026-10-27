@@ -1,0 +1,12 @@
+/* Espacio inferior para el menú en celulares */
+.main-content {
+  padding-bottom: 70px; 
+}
+
+/* En PC (a partir de 768px), sacamos el espacio inferior y empujamos hacia la derecha */
+@media (min-width: 768px) {
+  .main-content {
+    padding-bottom: 0;
+    margin-left: 250px; /* Este valor tiene que ser igual al width de tu SideBar (250px) */
+  }
+}
