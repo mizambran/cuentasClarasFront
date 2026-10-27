@@ -129,7 +129,7 @@ const Login = () => {
                       {showPassword ? <FaEyeSlash /> : <FaEye />}
                     </Button>
                     </InputGroup>
-                    <Form.Text> {errors.password?.message} </Form.Text>
+                    <Form.Text className="text-danger"> {errors.password?.message} </Form.Text>
                   </Form.Group>
 
                   <Button
