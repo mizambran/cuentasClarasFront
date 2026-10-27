@@ -44,13 +44,6 @@ function App() {
     <Footer />
     </div>
     </BrowserRouter>
-
-    {/* 
-    <div className="d-flex flex-column justify-content-center align-items-center my-5">
-              <Spinner animation="border" variant="primary" className="mt-5 mb-3" />
-              <p>Cargando...</p>
-            </div>
-    */}
     </>
   )
 }
