@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Navbar, Container, Nav, Button } from 'react-bootstrap';
 import { FaWallet, FaSignOutAlt, FaHome } from 'react-icons/fa';
 import { UsuarioContext } from '../context/UsuarioContext';

@@ -5,7 +5,7 @@ export const UsuarioContext = createContext()
 export const UsuarioProvider = ({children}) => {
 
     const [usuario, setUsuario] = useState([])
-    const [logueado, setLogueado] = useState(false)
+    const [logueado, setLogueado] = useState(!!localStorage.getItem('tokenCC'))
     const [isAdmin, setIsAdmin] = useState(false)
 
     return (
