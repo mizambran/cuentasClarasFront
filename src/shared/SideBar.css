@@ -1,0 +1,82 @@
+.sidebar-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f8f9fa; 
+  border-top: 1px solid #dee2e6;
+  z-index: 1040;
+  display: flex;
+}
+
+.menu-header {
+  display: none;
+}
+
+.nav-link-custom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.70rem;
+  color: #6c757d;
+  text-decoration: none;
+  padding: 0.5rem 0.25rem;
+  background: transparent;
+  border: none;
+}
+
+.nav-link-custom.active {
+  color: #0d6efd; 
+  font-weight: 600;
+}
+
+.nav-icon {
+  font-size: 1.25rem;
+  margin-bottom: 2px;
+}
+
+/* --- ESTILOS ESCRITORIO (A partir de 768px) --- */
+@media (min-width: 768px) {
+  .sidebar-container {
+    top: 0;
+    bottom: auto;
+    width: 250px;
+    height: 100vh;
+    border-top: none;
+    border-right: 1px solid #dee2e6;
+    padding: 1.5rem 1rem;
+    flex-direction: column;
+  }
+
+  .menu-header {
+    display: block;
+  }
+
+  .nav-wrapper {
+    flex-direction: column !important;
+  }
+
+  .nav-link-custom {
+    flex-direction: row;
+    font-size: 1rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.375rem;
+    margin-bottom: 0.25rem;
+    width: 100%;
+  }
+
+  .nav-link-custom:hover {
+    background-color: #e9ecef;
+  }
+
+  .nav-link-custom.active {
+    background-color: #0d6efd;
+    color: white;
+  }
+
+  .nav-icon {
+    font-size: 1.1rem;
+    margin-bottom: 0;
+    margin-right: 0.75rem;
+  }
+}

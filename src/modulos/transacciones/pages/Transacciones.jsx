@@ -8,7 +8,7 @@ import {
   Table,
   Button,
   InputGroup,
-  Badge,
+  Badge, Spinner
 } from "react-bootstrap";
 import { FaPlus, FaSearch, FaEye, FaEdit, FaTrash } from "react-icons/fa";
 import {
@@ -35,13 +35,15 @@ const Transacciones = () => {
   const [categorias, setCategorias] = useState([]);
   const [cuentas, setCuentas] = useState([]);
   const [buscador, setBuscador] = useState("")
-  
+  const [cargando, setCargando] = useState(false)
+
   const transaccionesFiltradas = transacciones.filter((tran) => 
     tran?.descripcion?.toLowerCase().includes(buscador.toLowerCase())
   )
 
   useEffect(() => {
     const traerDatos = async () => {
+      setCargando(true)
       const [transaccionesEnc, categoriasEncontradas, cuentasEncontradas] =
         await Promise.all([
           listarTransacciones(),
@@ -51,6 +53,7 @@ const Transacciones = () => {
       setTransacciones(transaccionesEnc);
       setCategorias(categoriasEncontradas);
       setCuentas(cuentasEncontradas);
+      setCargando(false)
     };
     traerDatos();
   }, []);
@@ -79,6 +82,7 @@ const Transacciones = () => {
         <Button
           variant="primary"
           className="d-flex align-items-center shadow-sm"
+          disabled={cargando}
           onClick={() => {
             setShow('crear')
             setTitulo('Creando...')
@@ -161,7 +165,13 @@ const Transacciones = () => {
             </Col>
 
       {/* --- SECCIÓN DE LA TABLA --- */}
-      <Card className="shadow-sm border-0">
+      {cargando ? (
+        <div className="d-flex flex-column justify-content-center align-items-center my-5">
+              <Spinner animation="border" variant="primary" className="mt-5 mb-3" />
+              <p>Cargando...</p>
+            </div>
+      ) : (
+        <Card className="shadow-sm border-0">
         <Card.Body className="p-0">
           <Table hover responsive className="align-middle mb-0">
             <thead className="table-light">
@@ -217,6 +227,7 @@ const Transacciones = () => {
           </Table>
         </Card.Body>
       </Card>
+      )}
 
       <ModalTransac show={show} handleClose={handleClose} titulo={titulo} >
         <FormTransaccion 

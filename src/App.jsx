@@ -28,8 +28,10 @@ function App() {
   return (
     <>
     <BrowserRouter>
-    <NavBar />
-    <Routes>
+    {!logueado && <NavBar />}
+    {logueado && <SideBar />}
+    <div className={logueado ? "main-content" : ""}>
+      <Routes>
     <Route path='/' element={<Inicio />} />
     <Route path='/login' element={<Login />} />
     <Route path='/registrar' element={<FormularioRegistro />} />
@@ -40,6 +42,7 @@ function App() {
     <Route path='*' element={<Error404 />} />
     </Routes>
     <Footer />
+    </div>
     </BrowserRouter>
     </>
   )
