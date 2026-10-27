@@ -48,9 +48,6 @@ const Login = () => {
       });
       navegacion("/");
 
-      if (!respuesta.ok) {
-        throw new Error(`Algo salió mal en la petición.`);
-      }
     } catch (error) {
       console.error("Error al intentar ingresar", error);
       Swal.fire({
