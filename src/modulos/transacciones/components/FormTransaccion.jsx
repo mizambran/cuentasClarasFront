@@ -7,7 +7,8 @@ import {
   FaExchangeAlt, FaMoneyBillWave, FaTags, 
   FaWallet, FaCalendarAlt, FaCheckCircle, 
   FaAlignLeft, FaSave, FaTimes, FaEdit, 
-  FaTrash
+  FaTrash,
+  FaArrowLeft
 } from "react-icons/fa";
 import { obtenerFechaHoy } from "../../../utils/formatos";
 
@@ -185,8 +186,8 @@ const FormTransaccion = ({ show, cambiarModo, cerrarModal, transSeleccionada, ca
       </fieldset>
 
       <div className="d-flex justify-content-end gap-3 mt-4 pt-3 border-top">
-        <Button variant="secondary" className="px-4 rounded-pill d-flex align-items-center shadow-sm " onClick={cerrarModal}>
-          <FaTimes className="me-1" /> {esSoloLectura ? 'Cerrar' : 'Cancelar'}
+        <Button variant={esSoloLectura ? "primary" : "danger"} className="px-4 rounded-pill d-flex align-items-center shadow-sm " onClick={cerrarModal}>
+          {esSoloLectura && <FaArrowLeft className="me-1" />} {esSoloLectura ? '' : 'Cancelar'}
         </Button>
         
         {/* Si estamos en modo 'ver' , mostramos el boton que cambia a 'editar' */}
@@ -198,7 +199,7 @@ const FormTransaccion = ({ show, cambiarModo, cerrarModal, transSeleccionada, ca
           </Button>
           <Button variant="danger " className="px-4 rounded-pill d-flex align-items-center shadow-sm" 
           onClick={async() => eliminar(transSeleccionada._id)}>
-            <FaTrash className="me-1" /> Eliminar
+            <FaTrash className="me-1" /> Borrar
           </Button>
           </div>
         )}
