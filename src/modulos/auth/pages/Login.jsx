@@ -27,7 +27,6 @@ const Login = () => {
     try {
       setCargando(true);
       const respuesta = await loginUsuario(data);
-      console.log(respuesta);
       localStorage.setItem(`tokenCC`, respuesta.token);
       localStorage.setItem("usuarioCC",respuesta.nombre)
 

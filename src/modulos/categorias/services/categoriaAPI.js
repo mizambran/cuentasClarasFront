@@ -1,11 +1,10 @@
 
 
-
-const token = localStorage.getItem('tokenCC')
 const URLBASE = import.meta.env.VITE_API_URL
 
 export const listarCategorias = async(req, res) => {
     try {
+        const token = localStorage.getItem('tokenCC')
         const respuesta = await fetch(`${URLBASE}/categorias/`, {
             method:'GET',
             headers:{
@@ -26,6 +25,7 @@ export const listarCategorias = async(req, res) => {
 
 export const crearCategoria = async(data) => {
     try {
+        const token = localStorage.getItem('tokenCC')
         const respuesta = await fetch(`${URLBASE}/categorias/`, {
             method:'POST',
             headers:{

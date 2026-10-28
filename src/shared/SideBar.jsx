@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
 import { Nav } from 'react-bootstrap';
-import { FaHome, FaExchangeAlt, FaChartPie, FaBullseye, FaTags, FaSignOutAlt } from 'react-icons/fa';
+import { FaHome, FaExchangeAlt, FaChartPie, FaBullseye, FaTags, FaSignOutAlt, FaWallet, FaLandmark } from 'react-icons/fa';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { UsuarioContext } from '../context/UsuarioContext';
 import './SideBar.css'; 
+import { FaMoneyBill1Wave } from 'react-icons/fa6';
 
 const SideBar = () => {
   const { usuario, setLogueado } = useContext(UsuarioContext);
@@ -24,7 +25,7 @@ const SideBar = () => {
       {/* Cabecera que solo se ve en PC */}
       <div className="menu-header mb-4 ps-2">
         <h5 className="text-primary fw-bold mb-0">Menú Principal </h5>
-        <small className="text-secondary ">Hola, {nombreUsuarioProvisorio}! </small>
+        <small className="text-dark ">Hola, {nombreUsuarioProvisorio}! </small>
       </div>
       
       <Nav className="nav-wrapper d-flex flex-row justify-content-around w-100 mb-auto h-100">
@@ -53,9 +54,9 @@ const SideBar = () => {
           </NavLink>
         </Nav.Item>
         <Nav.Item>
-          <NavLink to={'/objetivos'} className="nav-link-custom">
-            <FaBullseye className="nav-icon" />
-            <span>Objetivos</span>
+          <NavLink to={'/saldos'} className="nav-link-custom">
+            <FaLandmark className="nav-icon" />
+            <span>Saldos</span>
           </NavLink>
         </Nav.Item>
 

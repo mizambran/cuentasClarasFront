@@ -41,7 +41,7 @@ function App() {
     <Route path='/presupuesto' element={<Presupuesto />} />
     <Route path='*' element={<Error404 />} />
     </Routes>
-    <Footer />
+    {!logueado && <Footer />}
     </div>
     </BrowserRouter>
     </>

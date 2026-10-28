@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Card, Button, Badge, Spinner } from "react-bootstrap";
+import { Container, Row, Col, Card, Button, Badge, Spinner, Form } from "react-bootstrap";
 import { FaPlus, FaEye, FaEdit, FaTrash, FaTag } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { listarCategorias, eliminarCategoria } from "../services/categoriaAPI";
@@ -27,6 +27,8 @@ const Categorias = () => {
   useEffect(() => {
     cargarCategorias();
   }, []);
+
+
 
   const handleClose = () => {
     setShow('');
@@ -62,6 +64,12 @@ const Categorias = () => {
     }
   };
 
+  const [buscador, setBuscador] = useState('')
+
+  const categoriasEnc = categorias.filter(cat => {
+    return cat.nombre.toLowerCase().includes(buscador.toLowerCase())    
+  })
+
   return (
     <Container fluid className="p-4 bg-light min-vh-100">
 
@@ -77,7 +85,11 @@ const Categorias = () => {
           <FaPlus className="me-2" /> Agregar
         </Button>
       </div>
-
+      <Card className="my-4">
+        <Form.Group>
+          <Form.Control placeholder="Buscar por nombre"  onChange={(e)=> setBuscador(e.target.value)} />
+        </Form.Group>
+      </Card>
     
       <Row className="g-4">
         {cargando ? (
@@ -86,8 +98,8 @@ const Categorias = () => {
               <p>Cargando...</p>
             </div>) 
             : 
-            categorias.length > 0 ? (
-          categorias.map((cat) => (
+            categoriasEnc?.length > 0 ? (
+          categoriasEnc?.map((cat) => (
             <Col xs={12} md={6} lg={4} xl={3} key={cat._id}>
               <Card className="shadow border-2 h-100">
                 <Card.Body>
@@ -145,7 +157,6 @@ const Categorias = () => {
           <Col xs={12}>
             <div className="text-center py-5 text-muted">
               <h5>No tenés ninguna categoría cargada</h5>
-              <p>Hacé clic en "+ Agregar" para empezar a organizar tus finanzas.</p>
             </div>
           </Col>
         )  
