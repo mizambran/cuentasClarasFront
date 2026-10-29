@@ -15,6 +15,7 @@ import Transacciones from './modulos/transacciones/pages/Transacciones'
 import Error404 from './shared/Error404'
 import Categorias from './modulos/categorias/pages/Categorias'
 import Presupuesto from './modulos/presupuestos/pages/Presupuesto'
+import Saldos from './modulos/saldos/pages/Saldos'
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
     <Route path='/transacciones' element={<Transacciones />} />
     <Route path='/categorias' element={<Categorias />} />
     <Route path='/presupuesto' element={<Presupuesto />} />
+    <Route path='saldos' element={<Saldos />} />
     <Route path='*' element={<Error404 />} />
     </Routes>
     {!logueado && <Footer />}

@@ -18,7 +18,7 @@ export const listarCategorias = async(req, res) => {
         }
         return resultado
     } catch (error) {
-        console.error("Ocurrió algo mal al intentar listar las categorias",error)
+        console.error("Ocurrió algo mal al intentar listar las categorias", error)
         throw error
     }
 }
