@@ -12,13 +12,15 @@ import {
 } from "react-bootstrap";
 import { FaPlus, FaSearch, FaEye, FaEdit, FaTrash } from "react-icons/fa";
 import {
-  listarCategorias,
-  listarCuentas,
-  listarTransacciones,
+  listarTransacciones
 } from "../services/transaccionAPI";
 import { convertirARS, convertirFecha } from "../../../utils/formatos";
 import ModalTransac from "../components/ModalTransac";
 import FormTransaccion from "../components/FormTransaccion";
+import { listarCuentas } from "../../saldos/services/cuentaAPI";
+import { listarCategorias } from "../../categorias/services/categoriaAPI";
+
+
 
 const Transacciones = () => {
 

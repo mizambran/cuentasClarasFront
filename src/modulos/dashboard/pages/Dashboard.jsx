@@ -1,11 +1,19 @@
 import React from 'react';
-import { Container, Row, Col, Card, Form, Table, Badge } from 'react-bootstrap';
+import { Container, Row, Col, Card, Form, Table, Badge, Button } from 'react-bootstrap';
 import { FaArrowUp, FaArrowDown, FaWallet } from 'react-icons/fa';
 
 const Dashboard = () => {
   return (
     <Container fluid className="p-4 bg-light min-vh-100">
       <h2 className="mb-4 text-secondary">Mi Resumen</h2>
+
+    {/* Evaluar inversión -> En esta sección el usuario podrá entrar a un form para calcular una inversión que 
+    tenga en mente, para saber cuanto es el interes que va a ganar en un periodo determinado (Matematica Financiera) */}
+    <div className='my-3' >
+      <h3>Herramientas</h3>
+      <Button type='button' > Evaluar inversión </Button>
+    </div>
+
 
       {/* Tarjetas de Resumen */}
       <Row className="mb-4">
@@ -14,7 +22,7 @@ const Dashboard = () => {
             <Card.Body>
               <div className="d-flex justify-content-between align-items-center">
                 <div>
-                  <h6 className="text-muted mb-1">Balance Total</h6>
+                  <h6 className="text-muted mb-1">Disponible</h6>
                   <h3 className="mb-0 fw-bold">$ 150,000</h3>
                 </div>
                 <FaWallet size={30} className="text-primary opacity-50" />
