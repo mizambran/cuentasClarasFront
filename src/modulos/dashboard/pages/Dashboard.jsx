@@ -1,8 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card, Form, Table, Badge, Button } from 'react-bootstrap';
 import { FaArrowUp, FaArrowDown, FaWallet } from 'react-icons/fa';
+import { listarSaldos } from '../services/dashboardAPI';
+import {convertirARS} from '../../../utils/formatos'
+
 
 const Dashboard = () => {
+
+  const [saldos, setSaldos] = useState([])
+
+  useEffect(() => {
+    const traerDatos = async() => {
+      const saldosEnc = await listarSaldos()
+      setSaldos(saldosEnc)
+    } 
+    traerDatos()
+  }, [])
+
+
   return (
     <Container fluid className="p-4 bg-light min-vh-100">
       <h2 className="mb-4 text-secondary">Mi Resumen</h2>
@@ -62,7 +77,7 @@ const Dashboard = () => {
       <Card className="shadow-sm border-0">
         <Card.Body>
           <div className="d-flex justify-content-between align-items-center mb-3">
-            <h5 className="mb-0">Últimas Transacciones</h5>
+            <h5 className="mb-0">Disponibilidades</h5>
             <Form.Select style={{ width: '200px' }}>
               <option>Este mes</option>
               <option>Mes anterior</option>
@@ -73,36 +88,20 @@ const Dashboard = () => {
           <Table hover responsive className="align-middle">
             <thead className="table-light">
               <tr>
-                <th>Fecha</th>
-                <th>Concepto</th>
-                <th>Categoría</th>
-                <th>Tipo</th>
-                <th className="text-end">Monto</th>
+                <th>Cuenta</th>
+                <th>Saldo Inicial</th>
+                <th>Saldo Actual</th>
               </tr>
             </thead>
             <tbody>
               {/* Filas de ejemplo "quemadas" (sin lógica) */}
-              <tr>
-                <td>15/12/2025</td>
-                <td>Sueldo Quincena</td>
-                <td>Salario</td>
-                <td><Badge bg="success">Ingreso</Badge></td>
-                <td className="text-end fw-bold text-success">+$ 200,000</td>
+              {saldos && saldos.map((saldo) => (
+                <tr key={saldo._id} >
+                <td> {saldo.nombre} </td>
+                <td> {saldo.saldoInicial} </td>
+                <td>{convertirARS(saldo.saldoActual)}</td>
               </tr>
-              <tr>
-                <td>16/12/2025</td>
-                <td>Compra Supermercado</td>
-                <td>Alimentación</td>
-                <td><Badge bg="danger">Gasto</Badge></td>
-                <td className="text-end fw-bold text-danger">-$ 35,000</td>
-              </tr>
-              <tr>
-                <td>16/12/2025</td>
-                <td>Carga Sube</td>
-                <td>Transporte</td>
-                <td><Badge bg="danger">Gasto</Badge></td>
-                <td className="text-end fw-bold text-danger">-$ 15,000</td>
-              </tr>
+              ))}
             </tbody>
           </Table>
         </Card.Body>
