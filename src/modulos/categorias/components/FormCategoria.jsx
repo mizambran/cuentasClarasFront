@@ -122,7 +122,7 @@ const FormCategoria = ({ show, cambiarModo, cerrarModal, categoriaSeleccionada, 
       <div className="d-flex justify-content-end gap-3 mt-4 pt-3 border-top">
         <Button 
           variant="danger" 
-          className="px-4 rounded-pill d-flex align-items-center shadow-sm " 
+          className="px-3 rounded-pill d-flex align-items-center shadow-sm " 
           onClick={cerrarModal}
         >
           <FaTimes className="me-2" /> {esSoloLectura ? 'Cerrar' : 'Cancelar'}
@@ -131,7 +131,7 @@ const FormCategoria = ({ show, cambiarModo, cerrarModal, categoriaSeleccionada, 
         {esSoloLectura && (
           <Button 
             variant="warning" 
-            className="px-4 rounded-pill d-flex align-items-center shadow-sm" 
+            className="px-3 rounded-pill d-flex align-items-center shadow-sm" 
             onClick={() => cambiarModo('editar')}
           >
             <FaEdit className="me-2" /> Editar
@@ -142,7 +142,7 @@ const FormCategoria = ({ show, cambiarModo, cerrarModal, categoriaSeleccionada, 
           <Button 
             variant="primary" 
             type="submit" 
-            className="px-4 rounded-pill d-flex align-items-center shadow-sm"
+            className="px-3 rounded-pill d-flex align-items-center shadow-sm"
           >
             <FaSave className="me-2" /> Guardar
           </Button>

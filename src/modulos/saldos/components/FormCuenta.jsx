@@ -3,6 +3,7 @@ import { Form, Button, Row, Col, InputGroup } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { FaSave, FaArrowLeft, FaEdit, FaTrash } from 'react-icons/fa';
 import Swal from 'sweetalert2';
+import { crearCuenta, editarCuenta, eliminarCuenta } from '../services/cuentaAPI';
 
 const FormCuenta = ({ show, cambiarModo, cerrarModal, cuentaSeleccionada, recargarLista }) => {
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
@@ -147,13 +148,13 @@ const FormCuenta = ({ show, cambiarModo, cerrarModal, cuentaSeleccionada, recarg
       <div className="d-flex justify-content-end gap-2 border-top pt-3">
         {show === 'ver' && (
           <>
-            <Button variant="primary" onClick={cerrarModal} className="d-flex align-items-center">
+            <Button variant="primary" onClick={cerrarModal} className="px-3 rounded-pill d-flex align-items-center">
               <FaArrowLeft className="me-2" /> 
             </Button>
-            <Button variant="warning" onClick={() => cambiarModo('editar')} className="d-flex align-items-center">
+            <Button variant="warning" onClick={() => cambiarModo('editar')} className="px-3 rounded-pill d-flex align-items-center">
               <FaEdit className="me-2" /> Editar
             </Button>
-            <Button variant="danger" onClick={handleEliminar} className="d-flex align-items-center" disabled={cargando}>
+            <Button variant="danger" onClick={handleEliminar} className="px-3 rounded-pill d-flex align-items-center" disabled={cargando}>
               <FaTrash className="me-2" /> Borrar
             </Button>
           </>
@@ -161,11 +162,11 @@ const FormCuenta = ({ show, cambiarModo, cerrarModal, cuentaSeleccionada, recarg
 
         {(show === 'crear' || show === 'editar') && (
           <>
-            <Button variant="danger" onClick={cerrarModal} disabled={cargando}>
+            <Button variant="danger" className='px-3 rounded-pill' onClick={cerrarModal} disabled={cargando}>
               Cancelar
             </Button>
-            <Button variant="primary" type="submit" className="d-flex align-items-center" disabled={cargando}>
-              <FaSave className="me-2" /> {show === 'crear' ? 'Crear Cuenta' : 'Guardar Cambios'}
+            <Button variant="primary" type="submit" className="px-3 rounded-pill d-flex align-items-center" disabled={cargando}>
+              <FaSave className="me-2" /> {show === 'crear' ? 'Guardar' : 'Guardar'}
             </Button>
           </>
         )}
