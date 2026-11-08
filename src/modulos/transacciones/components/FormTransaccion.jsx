@@ -186,18 +186,18 @@ const FormTransaccion = ({ show, cambiarModo, cerrarModal, transSeleccionada, ca
       </fieldset>
 
       <div className="d-flex justify-content-end gap-3 mt-4 pt-3 border-top">
-        <Button variant={esSoloLectura ? "primary" : "danger"} className="px-4 rounded-pill d-flex align-items-center shadow-sm " onClick={cerrarModal}>
+        <Button variant={esSoloLectura ? "primary" : "danger"} className="px-3 rounded-pill d-flex align-items-center shadow-sm " onClick={cerrarModal}>
           {esSoloLectura && <FaArrowLeft className="me-1" />} {esSoloLectura ? '' : 'Cancelar'}
         </Button>
         
         {/* Si estamos en modo 'ver' , mostramos el boton que cambia a 'editar' */}
         {esSoloLectura && (
           <div className="d-flex gap-2">
-            <Button variant="warning " className="px-4 rounded-pill d-flex align-items-center shadow-sm" 
+            <Button variant="warning " className="px-3 rounded-pill d-flex align-items-center shadow-sm" 
           onClick={() => cambiarModo('editar')}>
             <FaEdit className="me-1" /> Editar
           </Button>
-          <Button variant="danger " className="px-4 rounded-pill d-flex align-items-center shadow-sm" 
+          <Button variant="danger " className="px-3 rounded-pill d-flex align-items-center shadow-sm" 
           onClick={async() => eliminar(transSeleccionada._id)}>
             <FaTrash className="me-1" /> Borrar
           </Button>
@@ -206,7 +206,7 @@ const FormTransaccion = ({ show, cambiarModo, cerrarModal, transSeleccionada, ca
         
         {/* Si estamos en 'crear' o 'editar', mostramos el submit de Guardar */}
         {!esSoloLectura && (
-          <Button variant="primary" type="submit" className="px-4 rounded-pill d-flex align-items-center shadow-sm">
+          <Button variant="primary" type="submit" className="px-3 rounded-pill d-flex align-items-center shadow-sm">
             <FaSave className="me-2" /> Guardar
           </Button>
         )}

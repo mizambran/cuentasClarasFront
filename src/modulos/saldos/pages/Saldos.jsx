@@ -50,7 +50,7 @@ const Saldos = () => {
     switch (tipo?.toLowerCase()) {
       case 'efectivo': return <FaMoneyBillWave className="text-success fs-2" />;
       case 'tarjeta de crédito': return <FaCreditCard className="text-warning fs-2" />;
-      case 'banco': return <FaLandmark className="text-primary fs-2" />;
+      case 'cuenta bancaria': return <FaLandmark className="text-primary fs-2" />;
       default: return <FaWallet className="text-info fs-2" />;
     }
   };

@@ -44,3 +44,66 @@ export const listarCuentasConSaldos = async() => {
         throw error
     }
 }
+
+export const crearCuenta = async(data) => {
+    try {
+        const token = localStorage.getItem('tokenCC')
+        const respuesta = await fetch(`${URLBASE}/cuentas/`, {
+            method:'POST',
+            headers:{
+                'Content-type':'Application/json',
+                'Authorization':`Bearer ${token}`
+            },
+            body:JSON.stringify(data)
+        })
+        const resultado = await respuesta.json()
+        if(!respuesta.ok){
+            throw new Error(resultado.mensaje || "Algo salió mal en la petición")
+        }
+        return resultado
+    } catch (error) {
+        console.error("Algo salió mal en el catch", error)
+        throw error
+    }
+}
+
+export const editarCuenta = async(id, data) => {
+    try {
+        const token = localStorage.getItem('tokenCC')
+        const respuesta = await fetch(`${URLBASE}/cuentas/${id}`, {
+            method:'PUT',
+            headers:{
+                'Content-type':'Application/json',
+                'Authorization':`Bearer ${token}`
+            },
+            body:JSON.stringify(data)
+        })
+        const resultado = await respuesta.json()
+        if(!respuesta.ok){
+            throw new Error(resultado.mensaje || "Algo salió mal en la petición")
+        }
+        return resultado
+    } catch (error) {
+        console.error("Algo salió mal en el catch", error)
+        throw error
+    }
+}
+
+export const eliminarCuenta = async(id) => {
+    try {
+        const token =localStorage.getItem('tokenCC')
+        const respuesta = await fetch(`${URLBASE}/cuentas/${id}`,{
+            headers:{
+                'Content-type':'Application/json',
+                'Authorization':`Bearer ${token}`
+            }
+        })
+        if(!respuesta.ok){
+            throw new Error(resultado.mensaje || "Algo salió mal en la petición")
+        }
+        return resultado
+    } catch (error) {
+        console.error("Algo salió mal en el catch", error)
+        throw error
+    }
+}
