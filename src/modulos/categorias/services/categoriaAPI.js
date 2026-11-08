@@ -45,11 +45,47 @@ export const crearCategoria = async(data) => {
     }
 }
 
-export const editarCategoria = async() => {
-
+export const editarCategoria = async(id, data) => {
+    try {
+        const token = localStorage.getItem('tokenCC')
+        const respuesta = await fetch(`${URLBASE}/categorias/${id}`, {
+            method:'PUT',
+            headers:{
+                'Content-type':'Application/json',
+                'Authorization':`Bearer ${token}`
+            },
+            body:JSON.stringify(data)
+        })
+        const resultado = await respuesta.json()
+        if(!respuesta.ok){
+            throw new Error(resultado.mensaje || "Algo salió mal en la petición")
+        }
+        return resultado
+    } catch (error) {
+        console.error("Algo salió mal en el catch", error)
+        throw error
+    }
 }
 
-export const eliminarCategoria = async() => {
+export const eliminarCategoria = async(id) => {
+    try {
+        const token = localStorage.getItem('tokenCC')
+    const respuesta = await fetch(`${URLBASE}/categorias/${id}`, {
+        method:'DELETE',
+        headers:{
+            'Content-type':'Application/json',
+            'Authorization':`Bearer ${token}`
+        }
+    })
 
+    const resultado = await respuesta.json()
+    if(!respuesta.ok){
+        throw new Error(resultado.mensaje || "Algo salió mal en la petición")
+    }
+    return resultado
+    } catch (error) {
+     console.error("Algo salió mal en el catch", error)
+     throw error   
+    }
 }
 
