@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Button, Form, Row, Col } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { crearCategoria, editarCategoria } from "../services/categoriaAPI";
+import { crearCategoria, editarCategoria, eliminarCategoria } from "../services/categoriaAPI";
 import Swal from "sweetalert2";
 import { 
   FaTag, FaExchangeAlt, FaInfoCircle, 
@@ -121,8 +121,8 @@ const FormCategoria = ({ show, cambiarModo, cerrarModal, categoriaSeleccionada, 
       {/* BOTONERA INFERIOR */}
       <div className="d-flex justify-content-end gap-3 mt-4 pt-3 border-top">
         <Button 
-          variant="light" 
-          className="px-4 rounded-pill d-flex align-items-center shadow-sm text-muted" 
+          variant="danger" 
+          className="px-4 rounded-pill d-flex align-items-center shadow-sm " 
           onClick={cerrarModal}
         >
           <FaTimes className="me-2" /> {esSoloLectura ? 'Cerrar' : 'Cancelar'}
@@ -130,7 +130,7 @@ const FormCategoria = ({ show, cambiarModo, cerrarModal, categoriaSeleccionada, 
         
         {esSoloLectura && (
           <Button 
-            variant="outline-primary" 
+            variant="warning" 
             className="px-4 rounded-pill d-flex align-items-center shadow-sm" 
             onClick={() => cambiarModo('editar')}
           >
