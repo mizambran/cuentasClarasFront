@@ -303,7 +303,7 @@ const Transacciones = () => {
                   >
                     {convertirARS(tran.monto)}
                   </td>
-                  <td className="text-center">{tran.estado}</td>
+                  <td className="text-center"><Badge bg={tran.estado === "Completado" ? "success" : "danger"} >{tran.estado}</Badge></td>
                 </tr>
               ))
               ) : (
