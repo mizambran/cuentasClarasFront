@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Col, Button, Container, Form, Row, Spinner, Card, Badge } from "react-bootstrap";
-import { FaPlus, FaMoneyBillWave, FaCreditCard, FaLandmark, FaWallet } from "react-icons/fa";
-import { listarCuentas } from "../services/cuentaAPI";
+import { Col, Button, Container, Form, Row, Spinner, Card, Badge, Table } from "react-bootstrap";
+import { FaPlus, FaMoneyBillWave, FaCreditCard, FaLandmark, FaWallet, FaList, FaThLarge } from "react-icons/fa";
+import {  listarCuentasConSaldos } from "../services/cuentaAPI";
 import { convertirARS } from "../../../utils/formatos";
 import ModalTransac from "../../transacciones/components/ModalTransac"; 
 import FormCuenta from "../components/FormCuenta"; 
@@ -10,6 +10,7 @@ const Saldos = () => {
   const [cargando, setCargando] = useState(false);
   const [cuentas, setCuentas] = useState([]);
   const [buscador, setBuscador] = useState("");
+  const [modoVista, setModoVista] = useState(false)
 
   const [show, setShow] = useState('');
   const [titulo, setTitulo] = useState('');
@@ -18,7 +19,7 @@ const Saldos = () => {
   const traerDatos = async () => {
     setCargando(true);
     try {
-      const cuentasEnc = await listarCuentas();
+      const cuentasEnc = await listarCuentasConSaldos();
       setCuentas(cuentasEnc);
     } catch (error) {
       console.error("Error al cargar cuentas", error);
@@ -26,6 +27,10 @@ const Saldos = () => {
       setCargando(false);
     }
   };
+
+  const cambiarModo = () => {
+    setModoVista(!modoVista)
+  }
 
   useEffect(() => {
     traerDatos();
@@ -55,6 +60,22 @@ const Saldos = () => {
     }
   };
 
+  const totalDisponible = cuentas.reduce((acc, item) => {
+    let total = parseFloat(item.saldoActual || 0)
+    // "Tarjeta de Crédito"
+    if(Number.isFinite(total) && item.tipo !== "Tarjeta de Crédito"){
+      acc += total
+    }
+    return acc
+  }, 0)
+  const limiteTarjeta = cuentas.reduce((acc, item) => {
+    let total = parseFloat(item.saldoActual || 0)
+    if(Number.isFinite(total) && item.tipo === "Tarjeta de Crédito"){
+      acc += total
+    }
+    return acc
+  }, 0)
+
   return (
     <Container fluid className="p-4 bg-light min-vh-100">
       <div className="d-flex justify-content-between align-items-center mb-4">
@@ -68,27 +89,100 @@ const Saldos = () => {
           <FaPlus className="me-2" /> Agregar
         </Button>
       </div>
-      
-      <Card className="my-4 shadow-sm border-0">
-        <Card.Body>
-          <Form.Group>
+      <Row className={`g-4 mb-4 ${cargando ? "d-none" : ""}`}>
+  
+  {/* --- TARJETA 1: DISPONIBLE --- */}
+  <Col xs={12} md={5}>
+    <Card className="shadow-sm border-0 border-start border-primary border-4 h-100">
+      <Card.Body>
+        <div className="d-flex justify-content-between align-items-center">
+          <div>
+            <h3 className="text-muted mb-0 fs-5">Disponible</h3>
+            <small className="text-muted">(No incluye tarjetas de crédito)</small>
+            <h3 className={`mt-2 ${totalDisponible >= 0 ? "mb-0 fw-bold text-success" : "mb-0 fw-bold text-danger"}`}>
+              {convertirARS(totalDisponible)}
+            </h3>
+          </div>
+          <FaWallet size={30} className="text-primary opacity-75" />
+        </div>
+      </Card.Body>
+    </Card>
+  </Col>
+
+  {/* --- TARJETA 2: LÍMITE TARJETAS --- */}
+  <Col xs={12} md={5}>
+    <Card className="shadow-sm border-0 border-start border-warning border-4 h-100">
+      <Card.Body>
+        <div className="d-flex justify-content-between align-items-center">
+          <div>
+            <h3 className="text-muted mb-0 fs-5">Límite Tarjetas</h3>
+            <small className="text-muted">(Solo tarjetas de crédito)</small>
+            <h3 className={`mt-2 ${limiteTarjeta >= 0 ? "mb-0 fw-bold text-muted" : "mb-0 fw-bold text-danger"}`}>
+              {convertirARS(limiteTarjeta)}
+            </h3>
+          </div>
+          <FaCreditCard size={30} className="text-warning opacity-75" />
+        </div>
+      </Card.Body>
+    </Card>
+  </Col>
+
+</Row>
+      <div className={`d-flex flex-column flex-sm-row align-items-md-center gap-3 my-4 ${cargando ? "d-none" : ""}`}>
+        
+        {/* Buscador ocupando el espacio disponible */}
+        <Card className="shadow-sm border-0 flex-grow-1 mb-0">
+          <Card.Body className="p-2 px-3">
             <Form.Control
               placeholder="Buscar por nombre de cuenta..."
+              className="border-0 shadow-none p-1"
               onChange={(e) => setBuscador(e.target.value)}
             />
-          </Form.Group>
-        </Card.Body>
-      </Card>
+          </Card.Body>
+        </Card>
+
+        {/* Botón Toggle (Si modoVista es true muestra ícono de Lista, si es false muestra Grilla) */}
+        <Button 
+          variant="outline-secondary" 
+          className="shadow-sm bg-white d-flex align-items-center justify-content-center p-3 border-0"
+          onClick={cambiarModo}
+          title={modoVista ? "Cambiar a vista de grilla" : "Cambiar a vista de lista"  }
+        >
+          {modoVista ?  <FaThLarge size={20} className="text-primary" /> : <FaList size={20} className="text-primary" />}
+        </Button>
+      </div>
+      
 
       <Row className="g-4">
+        
         {cargando ? (
           <div className="d-flex flex-column justify-content-center align-items-center my-5 w-100">
             <Spinner animation="border" variant="primary" className="mt-5 mb-3" />
             <p>Cargando...</p>
           </div>
         ) : cuentasFiltradas?.length > 0 ? (
-          cuentasFiltradas.map((cta) => (
-            <Col xs={12} md={6} lg={4} xl={3} key={cta._id}>
+          modoVista ? (
+            <Table hover responsive className="align-middle">
+            <thead className="table-light">
+              <tr>
+                <th>Cuenta</th>
+                <th>Saldo Inicial</th>
+                <th>Saldo Actual</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cuentasFiltradas && cuentasFiltradas?.map((cta) => (
+                <tr key={cta?._id} onClick={() => abrirModal('ver', 'Detalle de Cuenta', cta)} >
+                <td> {cta?.nombre} </td>
+                <td> {convertirARS(cta?.saldoInicio || 0)} </td>
+                <td>{convertirARS(cta?.saldoActual || 0)}</td>
+              </tr>
+              ))}
+            </tbody>
+          </Table>
+          ) : (
+            cuentasFiltradas.map((cta) => (
+            <Col xs={12} md={6} lg={4}  key={cta._id}>
               {/* Al hacer clic en cualquier parte de la tarjeta, se abre el Modal */}
               <Card 
                 className="shadow-sm border-0 h-100" 
@@ -120,6 +214,7 @@ const Saldos = () => {
               </Card>
             </Col>
           ))
+          )
         ) : (
           <Col xs={12}>
             <div className="text-center py-5 text-muted">

@@ -101,7 +101,10 @@ const Categorias = () => {
             categoriasEnc?.length > 0 ? (
           categoriasEnc?.map((cat) => (
             <Col xs={12} md={6} lg={4} xl={3} key={cat._id}>
-              <Card className="shadow border-2 h-100">
+              <Card className="shadow border-2 h-100" 
+              style={{cursor:'pointer', transition:'transform 0.2s'}}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.02)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}>
                 <Card.Body>
                   <div className="d-flex justify-content-between align-items-start mb-2">
                     <Card.Title className="fw-bold text-dark d-flex align-items-center mb-0">
