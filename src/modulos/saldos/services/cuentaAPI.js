@@ -38,6 +38,8 @@ export const listarCuentasConSaldos = async() => {
         if(!respuesta.ok){
             throw new Error(resultado.mensaje || "Algo salió mal en la petición")
         }
+        console.log(resultado);
+        
         return resultado
     } catch (error) {
         console.error("Algo paso en el catch", error)
@@ -107,3 +109,4 @@ export const eliminarCuenta = async(id) => {
         throw error
     }
 }
+

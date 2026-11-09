@@ -179,7 +179,7 @@ const FormTransaccion = ({ show, cambiarModo, cerrarModal, transSeleccionada, ca
             <FaAlignLeft className="me-2 text-secondary" />Descripción
           </Form.Label>
           <Form.Control as="textarea" rows={2} className="shadow-sm border-0 bg-light" isInvalid={!!errors.descripcion} 
-            {...register("descripcion", { maxLength: { value: 20, message: "Máximo 20 caracteres" } })} />
+            {...register("descripcion", { required:"Tenes que ingresar una descripción, sino no te vas a acordar de que es el ingreso/gasto", maxLength: { value: 20, message: "Máximo 20 caracteres" } })} />
           <Form.Control.Feedback type="invalid">{errors.descripcion?.message}</Form.Control.Feedback>
         </Form.Group>
 
