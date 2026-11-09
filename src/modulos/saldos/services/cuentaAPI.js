@@ -38,8 +38,6 @@ export const listarCuentasConSaldos = async() => {
         if(!respuesta.ok){
             throw new Error(resultado.mensaje || "Algo salió mal en la petición")
         }
-        console.log(resultado);
-        
         return resultado
     } catch (error) {
         console.error("Algo paso en el catch", error)
@@ -93,13 +91,15 @@ export const editarCuenta = async(id, data) => {
 
 export const eliminarCuenta = async(id) => {
     try {
-        const token =localStorage.getItem('tokenCC')
+        const token = localStorage.getItem('tokenCC')
         const respuesta = await fetch(`${URLBASE}/cuentas/${id}`,{
+            method:'DELETE',
             headers:{
                 'Content-type':'Application/json',
                 'Authorization':`Bearer ${token}`
             }
         })
+        const resultado = await respuesta.json()
         if(!respuesta.ok){
             throw new Error(resultado.mensaje || "Algo salió mal en la petición")
         }

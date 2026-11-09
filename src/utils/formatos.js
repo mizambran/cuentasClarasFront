@@ -1,6 +1,15 @@
 
 export const convertirARS = (valor) => {
-    return valor.toLocaleString('es-AR' , {style:'currency', currency:'ARS'} )
+    return valor.toLocaleString('es-AR' , {style:'currency', currency:'ARS'} ) 
+} 
+
+export const convertirDivisas = (moneda, valor) => {
+  switch(moneda){
+    case "USD": return valor.toLocaleString('es-AR', {style:'currency', currency:'USD'})
+    case "EUR": return valor.toLocaleString('es-AR' , {style:'currency', currency:'EUR'} )
+    case "BRL": return valor.toLocaleString('es-AR' , {style:'currency', currency:'BRL'} )
+    default: return valor.toLocaleString('es-AR' , {style:'currency', currency:'ARS'} )
+  }
 }
 
 export const convertirFecha = (valor) => {

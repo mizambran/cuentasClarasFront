@@ -15,6 +15,7 @@ const FormCuenta = ({ show, cambiarModo, cerrarModal, cuentaSeleccionada, recarg
       reset({
         nombre: cuentaSeleccionada.nombre,
         tipo: cuentaSeleccionada.tipo,
+        moneda:cuentaSeleccionada.moneda,
         saldoInicio: cuentaSeleccionada.saldoInicio,
         activo: cuentaSeleccionada.activo
       });
@@ -109,6 +110,24 @@ const FormCuenta = ({ show, cambiarModo, cerrarModal, cuentaSeleccionada, recarg
               </Form.Select>
               <Form.Control.Feedback type="invalid">
                 {errors.tipo?.message}
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Col>
+
+          <Col xs={12} md={6}>
+            <Form.Group>
+              <Form.Label>Moneda</Form.Label>
+              <Form.Select
+                isInvalid={!!errors.moneda}
+                {...register("moneda", { required: "Seleccioná una moneda" })}
+              >
+                <option value="ARS">Peso</option>
+                <option value="USD">Dolar</option>
+                <option value="EUR">Euro</option>
+                <option value="BRL">Real</option>
+              </Form.Select>
+              <Form.Control.Feedback type="invalid">
+                {errors.moneda?.message}
               </Form.Control.Feedback>
             </Form.Group>
           </Col>
